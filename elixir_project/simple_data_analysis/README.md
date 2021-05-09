@@ -1,21 +1,5 @@
 # SimpleDataAnalysis
 
-**TODO: Add description**
-
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `simple_data_analysis` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:simple_data_analysis, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/simple_data_analysis](https://hexdocs.pm/simple_data_analysis).
+* This project got created using [José Valim's Tutorial](https://www.youtube.com/watch?v=fPKMmJpAGWc).
+  Every code currently in this project is inspired in this tutorial
 

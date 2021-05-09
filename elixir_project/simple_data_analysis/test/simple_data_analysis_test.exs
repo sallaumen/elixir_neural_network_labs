@@ -2,7 +2,7 @@ defmodule SimpleDataAnalysisTest do
   use ExUnit.Case
   doctest SimpleDataAnalysis
 
-  test "greets the world" do
-    assert SimpleDataAnalysis.hello() == :world
+  test "validates analyse return" do
+    assert SimpleDataAnalysis.analyse() == :ok
   end
 end

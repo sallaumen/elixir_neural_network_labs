@@ -5,23 +5,22 @@ defmodule SimpleDataAnalysis.MixProject do
     [
       app: :simple_data_analysis,
       version: "0.1.0",
-      elixir: "~> 1.10",
+      elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
     [
       extra_applications: [:logger]
     ]
   end
 
-  # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:nx, "~> 0.1.0-dev", github: "elixir-nx/nx", branch: "main", sparse: "nx"}
+#      {:exla, "~> 0.1.0-dev", github: "elixir-nx/nx", sparse: "exla"},
+      {:nx, "~> 0.1.0-dev", github: "elixir-nx/nx", branch: "main", sparse: "nx", override: true}
     ]
   end
 end
