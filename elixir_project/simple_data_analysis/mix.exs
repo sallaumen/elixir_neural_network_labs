@@ -3,7 +3,7 @@ defmodule SimpleDataAnalysis.MixProject do
 
   def project do
     [
-      app: :simple_data_analysis,
+      app: :irnw,
       version: "0.1.0",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
@@ -19,7 +19,7 @@ defmodule SimpleDataAnalysis.MixProject do
 
   defp deps do
     [
-#      {:exla, "~> 0.1.0-dev", github: "elixir-nx/nx", sparse: "exla"},
+      {:exla, "~> 0.1.0-dev", github: "elixir-nx/nx", sparse: "exla"},
       {:nx, "~> 0.1.0-dev", github: "elixir-nx/nx", branch: "main", sparse: "nx", override: true}
     ]
   end

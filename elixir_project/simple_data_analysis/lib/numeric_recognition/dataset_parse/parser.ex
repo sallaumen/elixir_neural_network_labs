@@ -1,10 +1,10 @@
-defmodule NumericRecognition.DatasetParser.Parser do
-
-  def get_data(train_images, expected_result) do
+defmodule NumericRecognition.DatasetParse.Parser do
+  def get_data(train_images, expected_result, analyse_size) do
     <<_::32, n_images::32, n_rows::32, n_cols::32, images::binary>> = train_images
 
     <<_::32, n_labels::32, labels::binary>> = expected_result
     gross_images = parse_dataset_group(n_images, n_rows, n_cols, images)
+    print_expected_output(labels, analyse_size)
     labels = sanitize_labels(n_labels, labels)
     {gross_images, labels}
   end
@@ -24,6 +24,7 @@ defmodule NumericRecognition.DatasetParser.Parser do
 
   defp get_images_array({n_images, n_rows, n_cols, images}) do
     shape_size = n_rows * n_cols
+
     images
     |> Nx.from_binary({:u, 8})
     |> Nx.reshape({n_images, shape_size}, names: [:batch, :input])
@@ -31,4 +32,14 @@ defmodule NumericRecognition.DatasetParser.Parser do
     |> Nx.to_batched_list(30)
   end
 
+  defp print_expected_output(labels, analyse_size) do
+    slice =
+      labels
+      |> Nx.from_binary({:u, 8})
+      |> Nx.to_flat_list()
+      |> Enum.slice(analyse_size)
+
+    IO.puts("Expected output:")
+    IO.inspect(slice)
+  end
 end

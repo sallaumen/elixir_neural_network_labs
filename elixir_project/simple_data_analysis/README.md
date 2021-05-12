@@ -1,1 +1,1 @@
-# SimpleDataAnalysis
+# Image Recognition Neural Network (IRNW)

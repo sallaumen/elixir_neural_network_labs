@@ -1,7 +1,7 @@
 defmodule NumericRecognition.DatasetTrain.TrainerNumericalDefinition do
   import Nx.Defn
 
-#  @default_defn_compiler EXLA
+  @default_defn_compiler EXLA
 
   defn init_params do
     w1 = Nx.random_normal({784, 128}, 0.0, 0.1, names: [:input, :hidden])
@@ -27,15 +27,50 @@ defmodule NumericRecognition.DatasetTrain.TrainerNumericalDefinition do
 
   defn loss({w1, b1, w2, b2}, images, labels) do
     predictions = predict({w1, b1, w2, b2}, images)
-    -Nx.sum(Nx.mean(Nx.log(predictions) * labels, axes: [:output]))
+
+    positive_loss =
+      (Nx.log(predictions) * labels)
+      |> Nx.mean(axes: [:output])
+      |> Nx.sum()
+
+    -positive_loss
   end
 
   defn update({w1, b1, w2, b2} = params, images, labels) do
-    {grad_w1, grad_b1, grad_w2, grad_b2} =
-      grad(params, loss(params, images, labels))
+    {grad_w1, grad_b1, grad_w2, grad_b2} = grad(params, loss(params, images, labels))
 
-    {w1 - grad_w1 * 0.01, b1 - grad_b1 * 0.01,
-      w2 - grad_w2 * 0.01, b2 - grad_b2 * 0.01}
+    {w1 - grad_w1 * 0.01, b1 - grad_b1 * 0.01, w2 - grad_w2 * 0.01, b2 - grad_b2 * 0.01}
   end
 
+  def get_or_train_neural_network(:train, path, images_zip, epochs) do
+    trained_params =
+      for _ <- 1..epochs,
+          {{imgs, labels}, _} <- images_zip,
+          reduce: init_params() do
+        params -> update(params, imgs, labels)
+      end
+
+    #    save_model_params(trained_params, path)
+    trained_params
+  end
+
+  def get_or_train_neural_network(:get, path, _, _) do
+    load_model_params(path)
+  end
+
+  defp save_model_params(params, path) do
+    path = "lib/animal_recognition/trained_parameters/#{path}"
+
+    params
+    |> Nx.to_binary()
+    |> File.write(path)
+    #    |> File.write(:erlang.term_to_binary(params))
+  end
+
+  defp load_model_params(path) do
+    "lib/animal_recognition/trained_parameters/#{path}"
+    |> File.read!()
+    |> Nx.from_binary({:f, 64})
+    #    |> :erlang.binary_to_term()
+  end
 end
