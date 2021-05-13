@@ -1,5 +1,5 @@
 defmodule NumericRecognition.Executor do
-  def is_animal?(image, algorithm) do
+  def which_number?(image, algorithm) do
     {:ok, image, algorithm}
   end
 end
