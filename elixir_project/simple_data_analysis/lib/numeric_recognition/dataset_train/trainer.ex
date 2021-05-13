@@ -21,6 +21,22 @@ defmodule NumericRecognition.DatasetTrain.Trainer do
     :ok
   end
 
+  def execute_with_axon() do
+#    analyse_size = 0..29
+#    train_images = File.read!("dataset/train-images-idx3-ubyte.gz") |> :zlib.gunzip()
+#    expected_result = File.read!("dataset/train-labels-idx1-ubyte.gz") |> :zlib.gunzip()
+#    {images, labels} = Parser.get_data(train_images, expected_result, analyse_size)
+#    zip = zip_images_with_labels({images, labels})
+#
+#    model =
+#      Axon.input({nil, 784})
+#      |> Axon.dense(128, activation: :relu)
+#      |> Axon.dense(10, activation: :softmax)
+#      |> Axon.Training.step(:categorical_cross_entropy, Axon.Optimizers.adam(0.01))
+#      |> Axon.Training.train(images, labels, compiler: EXLA, epochs: 5, log_every: 100)
+    :ok
+  end
+
   defp zip_images_with_labels({images, labels}) do
     Enum.zip(images, labels)
     |> Enum.with_index()
@@ -38,7 +54,7 @@ defmodule NumericRecognition.DatasetTrain.Trainer do
         index
       end)
 
-    IO.puts("Output:")
+    IO.puts("Real output:")
     IO.inspect(result_array)
   end
 end

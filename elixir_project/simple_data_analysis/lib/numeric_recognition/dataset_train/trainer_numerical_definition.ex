@@ -50,7 +50,7 @@ defmodule NumericRecognition.DatasetTrain.TrainerNumericalDefinition do
         params -> update(params, imgs, labels)
       end
 
-    #    save_model_params(trained_params, path)
+    save_model_params(trained_params, path)
     trained_params
   end
 
@@ -59,18 +59,26 @@ defmodule NumericRecognition.DatasetTrain.TrainerNumericalDefinition do
   end
 
   defp save_model_params(params, path) do
-    path = "lib/animal_recognition/trained_parameters/#{path}"
+    path = "lib/numeric_recognition/trained_parameters/#{path}"
+    {l1, l2, l3, l4} = params
 
-    params
-    |> Nx.to_binary()
-    |> File.write(path)
-    #    |> File.write(:erlang.term_to_binary(params))
+    IO.inspect(Nx.type(l1))
+    File.write(path <> "l1", Nx.to_binary(l1))
+    File.write(path <> "l2", Nx.to_binary(l2))
+    File.write(path <> "l3", Nx.to_binary(l3))
+    File.write(path <> "l4", Nx.to_binary(l4))
   end
 
   defp load_model_params(path) do
-    "lib/animal_recognition/trained_parameters/#{path}"
-    |> File.read!()
-    |> Nx.from_binary({:f, 64})
-    #    |> :erlang.binary_to_term()
+    path = "lib/numeric_recognition/trained_parameters/#{path}"
+    l1 = File.read!(path <> "l1")
+    |> Nx.from_binary({:f, 32})
+    l2 = File.read!(path <> "l2")
+    |> Nx.from_binary({:f, 32})
+    l3 = File.read!(path <> "l3")
+    |> Nx.from_binary({:f, 32})
+    l4 = File.read!(path <> "l4")
+    |> Nx.from_binary({:f, 32})
+    {l1, l2, l3, l4}
   end
 end

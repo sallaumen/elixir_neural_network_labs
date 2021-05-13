@@ -5,7 +5,7 @@ defmodule NumericRecognition.DatasetParse.Parser do
     <<_::32, n_labels::32, labels::binary>> = expected_result
     gross_images = parse_dataset_group(n_images, n_rows, n_cols, images)
     print_expected_output(labels, analyse_size)
-    labels = sanitize_labels(n_labels, labels)
+    labels = one_hot_labels(n_labels, labels)
     {gross_images, labels}
   end
 
@@ -14,7 +14,7 @@ defmodule NumericRecognition.DatasetParse.Parser do
     get_images_array(argument)
   end
 
-  defp sanitize_labels(n_labels, labels) do
+  defp one_hot_labels(n_labels, labels) do
     labels
     |> Nx.from_binary({:u, 8})
     |> Nx.reshape({n_labels, 1}, names: [:batch, :output])
