@@ -1,8 +1,9 @@
-# Image Recognition Neural Network (IRNW)
+# Image Recognition Neural Network (IRNW) - MNIST
 
-* This project got created using [José Valim's Tutorial](https://www.youtube.com/watch?v=fPKMmJpAGWc).
-  Every code currently in this project is inspired in this tutorial
+### This is an implementation using Elixir NX to MNIST problem
 
 #Results:
 
 ![Result](result.png)
+
+- This project got created using [José Valim's Tutorial](https://www.youtube.com/watch?v=fPKMmJpAGWc). Every code currently in this project is inspired in his tutorial.

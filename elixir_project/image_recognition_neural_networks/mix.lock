@@ -1,7 +1,8 @@
 %{
-  "axon": {:git, "https://github.com/elixir-nx/axon.git", "799c099d1cc53df125a30051c8b2920c8497e9ba", [branch: "main"]},
+  "axon": {:git, "https://github.com/elixir-nx/axon.git", "ec28a63744ea3caf3f2ddc10fbdd491508465d73", [branch: "main"]},
   "elixir_make": {:hex, :elixir_make, "0.6.2", "7dffacd77dec4c37b39af867cedaabb0b59f6a871f89722c25b28fcd4bd70530", [:mix], [], "hexpm", "03e49eadda22526a7e5279d53321d1cced6552f344ba4e03e619063de75348d9"},
   "exla": {:git, "https://github.com/elixir-nx/nx.git", "eb4696f16e80c913ea836e1ca3cc39b5ee6f03f0", [sparse: "exla"]},
   "nx": {:git, "https://github.com/elixir-nx/nx.git", "eb4696f16e80c913ea836e1ca3cc39b5ee6f03f0", [branch: "main", sparse: "nx"]},
+  "scidata": {:hex, :scidata, "0.1.1", "9cd4f5197dd602ac83ddf18c850220fa5e5a81a4fb3911cac01a2508ca4ce29d", [:mix], [], "hexpm", "e8f176dfdd08f122238214540291e33051ac82b2bee71262c7674fb6e3131be0"},
   "table_rex": {:hex, :table_rex, "3.1.1", "0c67164d1714b5e806d5067c1e96ff098ba7ae79413cc075973e17c38a587caa", [:mix], [], "hexpm", "678a23aba4d670419c23c17790f9dcd635a4a89022040df7d5d772cb21012490"},
 }

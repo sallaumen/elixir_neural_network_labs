@@ -21,7 +21,7 @@ defmodule SimpleDataAnalysis.MixProject do
     [
       {:exla, "~> 0.1.0-dev", github: "elixir-nx/nx", sparse: "exla"},
       {:nx, "~> 0.1.0-dev", github: "elixir-nx/nx", branch: "main", sparse: "nx", override: true},
-#      {:axon, "~> 0.1.0-dev", github: "elixir-nx/axon", branch: "main"},
+      {:scidata, "~> 0.1.1"}
     ]
   end
 end
