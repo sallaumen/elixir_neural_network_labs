@@ -1,6 +1,6 @@
 # Image Recognition Neural Network (IRNW) - MNIST
 
-### This is an implementation using Elixir NX to MNIST problem
+ This is an implementation using Elixir NX to MNIST problem, which consists in recognizing handwritten numbers.
 
 #Results:
 

@@ -1,4 +1,4 @@
-defmodule NumericRecognition.Executor do
+defmodule MNIST.Executor do
   alias NumericRecognition.DatasetTrain.Trainer
 
   def execute(), do: Trainer.execute()

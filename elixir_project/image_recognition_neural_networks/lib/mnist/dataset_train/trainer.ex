@@ -1,4 +1,4 @@
-defmodule NumericRecognition.DatasetTrain.Trainer do
+defmodule MNIST.DatasetTrain.Trainer do
   alias DatasetTrain.TrainerNumericalDefinition
   alias DatasetParse.Parser
 
