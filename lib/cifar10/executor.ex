@@ -3,7 +3,7 @@ defmodule CIFAR10.Executor do
 
   def execute(), do: Trainer.execute()
 
-  def which_number?(image, algorithm) do
+  def which_image?(image, algorithm) do
     {:ok, image, algorithm}
   end
 end

@@ -1,9 +1,7 @@
-# Image Recognition Neural Network (IRNW) - MNIST
+# Image Recognition Neural Network (IRNW) - CIFAR10
 
- This is an implementation using Elixir NX to MNIST problem, which consists in recognizing handwritten numbers.
+ This is an implementation using Elixir NX to solve CIFAR10 problem, which consists in recognizing handwritten numbers.
 
 #Results:
 
 ![Result](result.png)
-
-- This project got created using [José Valim's Tutorial](https://www.youtube.com/watch?v=fPKMmJpAGWc). Every code currently in this project is inspired in his tutorial.
