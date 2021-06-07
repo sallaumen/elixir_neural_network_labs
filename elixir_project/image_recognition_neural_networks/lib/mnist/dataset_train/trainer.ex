@@ -8,7 +8,7 @@ defmodule MNIST.DatasetTrain.Trainer do
     zip = zip_images_with_labels({images, labels})
 
     params =
-      TrainerNumericalDefinition.get_or_train_neural_network(:train, "predictions_v1", zip, 1)
+      TrainerNumericalDefinition.get_or_train_neural_network(:train, "predictions_v1", zip, 5)
 
     [fbi | _] = images
 

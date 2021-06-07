@@ -1,10 +1,10 @@
-defmodule MNIST.DatasetTrain.Trainer do
+defmodule CIFAR10.DatasetTrain.Trainer do
   alias DatasetTrain.TrainerNumericalDefinition
   alias DatasetParse.Parser
 
   def execute() do
     analyse_size = 0..29
-    {images, labels} = Parser.get_data(analyse_size, :mnist, 10)
+    {images, labels} = Parser.get_data(analyse_size, :cifar10, 10)
     zip = zip_images_with_labels({images, labels})
 
     params =

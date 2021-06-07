@@ -1,5 +1,5 @@
-defmodule MNIST.Executor do
-  alias NumericRecognition.DatasetTrain.Trainer
+defmodule CIFAR10.Executor do
+  alias CIFAR10.DatasetTrain.Trainer
 
   def execute(), do: Trainer.execute()
 
