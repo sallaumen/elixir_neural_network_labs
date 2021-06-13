@@ -1,8 +1,12 @@
-defmodule DatasetParse.Parser do
-  def get_data(analyse_size, type, variation_size) do
-    {train_images, train_labels} = get_images_and_results(type)
-    print_expected_output(train_labels, analyse_size, variation_size)
-    {train_images, train_labels}
+defmodule Dataset.Parser do
+
+  def get_data(type) do
+    get_images_and_results(type)
+  end
+
+  def zip_images_with_labels({images, labels}) do
+    Enum.zip(images, labels)
+    |> Enum.with_index()
   end
 
   defp get_images_and_results(:cifar10) do
@@ -37,17 +41,8 @@ defmodule DatasetParse.Parser do
     |> Nx.to_batched_list(30)
   end
 
-  defp print_expected_output(labels, analyse_size, variation_size) do
-    slice =
-      labels
-      |> Enum.at(1)
-      |> Nx.to_flat_list()
-      |> Stream.chunk_every(variation_size)
-      |> Stream.map(&Enum.with_index(&1))
-      |> Stream.flat_map(&(&1 |> Enum.filter(fn {value, _index} -> value == 1 end)))
-      |> Stream.map(fn {_, value} -> value end)
-      |> Enum.slice(analyse_size)
-    IO.puts("Expected output:")
-    IO.inspect(slice)
+  defp transform_images({images_binary, type, {n_images, _, n_rows, n_cols}}) do
+    transform_images({images_binary, type, {n_images, n_rows, n_cols}})
   end
+
 end
