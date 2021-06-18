@@ -36,11 +36,11 @@ sudo ln -s python3 python<br>
 
 Add both dependencies
 
-      {:exla, "~> 0.1.0-dev", github: "elixir-nx/nx", sparse: "exla"},
-      {:nx, "~> 0.1.0-dev", github: "elixir-nx/nx", branch: "main", sparse: "nx", override: true}
-      {:scidata, "~> 0.1.1"}
->`mix deps.get` <br>
-`mix compile`
+    {:exla, "~> 0.1.0-dev", github: "elixir-nx/nx", sparse: "exla"},
+    {:nx, "~> 0.1.0-dev", github: "elixir-nx/nx", branch: "main", sparse: "nx", override: true}
+    {:scidata, "~> 0.1.1"}
+>`mix deps.get`<br>
+>`mix compile`
 
 Be aware that exla takes a really long time to compile
 
@@ -53,9 +53,14 @@ iex(1)> MNIST.Executor.execute()
 iex(2)> CIFAR10.Executor.execute()
 
 ## Current status:
-- MNIST: Working partially
-  ![Diagram](MNIST_results.png)
-  <br>
-  <br>
-  <br>
+### - MNIST
+Status: **Working**
+
+![Diagram](MNIST_results.png)
+<br>
+<br>
+<br>
+
 - CIFAR10: Not Working
+### - CIFAR10
+Status: **Not Working**
