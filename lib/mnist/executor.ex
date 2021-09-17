@@ -3,7 +3,4 @@ defmodule MNIST.Executor do
 
   def execute(), do: Trainer.execute()
 
-  def which_number?(image, algorithm) do
-    {:ok, image, algorithm}
-  end
 end
