@@ -1,5 +1,6 @@
 defmodule DatasetTrain.TrainerNumericalDefinition do
   import Nx.Defn
+  alias ImplementationModel.ModelPersistenceLayer
 
   @default_defn_compiler EXLA
 
@@ -37,57 +38,27 @@ defmodule DatasetTrain.TrainerNumericalDefinition do
   end
 
   defn update({w1, b1, w2, b2} = params, images, labels) do
-    {grad_w1, grad_b1, grad_w2, grad_b2} = grad(params, loss(params, images, labels))
+    {grad_w1, grad_b1, grad_w2, grad_b2} = grad(params, fn params -> loss(params, images, labels) end)
 
     {w1 - grad_w1 * 0.01, b1 - grad_b1 * 0.01, w2 - grad_w2 * 0.01, b2 - grad_b2 * 0.01}
   end
 
   def get_or_train_neural_network(:train, path, images_zip, epochs) do
     trained_params =
-      for _ <- 1..epochs,
-          {{imgs, labels}, _} <- images_zip,
-          reduce: init_params() do
-        params -> update(params, imgs, labels)
+      for epoch <- 1..epochs, reduce: init_params() do
+        acc ->
+          IO.puts("Epoch #{epoch}")
+          for {{imgs, labels}, _} <- images_zip, reduce: acc do
+            acc -> update(acc, imgs, labels)
+          end
       end
 
-    save_model_params(trained_params, path, false)
+    ModelPersistenceLayer.save_model_params(trained_params, path, :skip)
     trained_params
   end
 
   def get_or_train_neural_network(:get, path, _, _) do
-    load_model_params(path)
+    ModelPersistenceLayer.load_model_params(path)
   end
 
-  defp save_model_params(params, path, false), do: :not_saved
-  defp save_model_params(params, path, true) do
-    path = "lib/numeric_recognition/trained_parameters/#{path}"
-    {l1, l2, l3, l4} = params
-
-    File.write(path <> "l1", Nx.to_binary(l1))
-    File.write(path <> "l2", Nx.to_binary(l2))
-    File.write(path <> "l3", Nx.to_binary(l3))
-    File.write(path <> "l4", Nx.to_binary(l4))
-  end
-
-  defp load_model_params(path) do
-    path = "lib/numeric_recognition/trained_parameters/#{path}"
-
-    l1 =
-      File.read!(path <> "l1")
-      |> Nx.from_binary({:f, 32})
-
-    l2 =
-      File.read!(path <> "l2")
-      |> Nx.from_binary({:f, 32})
-
-    l3 =
-      File.read!(path <> "l3")
-      |> Nx.from_binary({:f, 32})
-
-    l4 =
-      File.read!(path <> "l4")
-      |> Nx.from_binary({:f, 32})
-
-    {l1, l2, l3, l4}
-  end
 end

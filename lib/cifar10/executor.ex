@@ -1,9 +1,9 @@
 defmodule CIFAR10.Executor do
   alias CIFAR10.DatasetTrain.Trainer
+  alias CIFAR10.DatasetTrain.AxonTrainer
 
   def execute(), do: Trainer.execute()
 
-  def which_image?(image, algorithm) do
-    {:ok, image, algorithm}
-  end
+  def execute_axon_impl(), do: AxonTrainer.execute()
+
 end

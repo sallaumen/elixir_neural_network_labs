@@ -1,5 +1,7 @@
 defmodule Dataset.Parser do
 
+  def get_working_batch_size(), do: 0..31
+
   def get_data(type) do
     get_images_and_results(type)
   end
@@ -28,7 +30,7 @@ defmodule Dataset.Parser do
     |> Nx.from_binary(type)
     |> Nx.reshape({n_labels, 1}, names: [:batch, :output])
     |> Nx.equal(Nx.tensor(Enum.to_list(0..9)))
-    |> Nx.to_batched_list(30)
+    |> Nx.to_batched_list(32)
   end
 
   defp transform_images({images_binary, type, {n_images, n_rows, n_cols}}) do
@@ -38,7 +40,7 @@ defmodule Dataset.Parser do
     |> Nx.from_binary(type)
     |> Nx.reshape({n_images, shape_size}, names: [:batch, :input])
     |> Nx.divide(255)
-    |> Nx.to_batched_list(30)
+    |> Nx.to_batched_list(32)
   end
 
   defp transform_images({images_binary, type, {n_images, _, n_rows, n_cols}}) do
