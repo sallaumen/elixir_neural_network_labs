@@ -28,7 +28,6 @@ defmodule CIFAR10.DatasetTrain.AxonTrainer do
     |> Nx.reshape({3, 32, 32})
     |> Nx.mean(axes: [0], keep_axes: true)
     |> Nx.to_heatmap()
-    |> IO.inspect
 
     model =
       Axon.input({nil, 3, 32, 32})
@@ -51,7 +50,7 @@ defmodule CIFAR10.DatasetTrain.AxonTrainer do
     final_training_state =
       model
       |> Axon.Training.step(:categorical_cross_entropy, Axon.Optimizers.sgd(0.01), metrics: [:accuracy])
-      |> Axon.Training.train(train_images, train_labels, epochs: 20, compiler: EXLA)
+      |> Axon.Training.train(train_images, train_labels, epochs: 10, compiler: EXLA)
       |> Nx.backend_transfer()
       |> IO.inspect()
 

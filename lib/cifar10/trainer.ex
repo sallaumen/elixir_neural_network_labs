@@ -5,19 +5,6 @@ defmodule CIFAR10.DatasetTrain.Trainer do
 
   @variation_size 10
 
-  def execute(:axon) do
-    {images, labels} = Parser.get_data(:cifar10)
-    zip = Parser.zip_images_with_labels({images, labels})
-    params = TrainerNumericalDefinition.get_or_train_neural_network(:train, "predictions_v1", zip, 3)
-    result_array = predict_all(images, params)
-
-    labels_array = Printer.print_and_get_labels(labels, @variation_size)
-    IO.puts("Real output:")
-    IO.inspect(result_array)
-    Printer.print_and_get_success_percentage(labels_array, result_array)
-    :ok
-  end
-
   def execute() do
     {images, labels} = Parser.get_data(:cifar10)
     zip = Parser.zip_images_with_labels({images, labels})
