@@ -13,36 +13,49 @@ end
 
 ## Prerequisite for EXLA
 
-Bazel 3.1.0<br>
+Bazel 3.7.2<br>
 >asdf plugin add bazel<br>
-asdf install bazel 3.1.0<br>
-asdf global bazel 3.1.0<br>
+asdf install bazel 3.7.2<br>
+asdf global bazel 3.7.2<br>
 
-Erlang OTP 24 (MacOS)<br>
+Erlang OTP 24 (MacOS)
 >brew install erlang
 
-Elixir 1.12<br>
+Erlang OTP 24 (ASDF)
+>asdf plugin add erlang 24.0.6<br>
+asdf install erlang 24.0.6<br>
+asdf global erlang 24.0.6<br>
+
+Elixir 1.12
 >asdf plugin add elixir<br>
 asdf install elixir 1.12-otp-24<br>
 asdf global elixir 1.12-otp-24<br>
 
- Python and NumPy<br>
+Python
 >sudo apt install python3-pip<br>
-pip3 install numpy<br>
-cd /usr/bin<br>
+
+Some trickery to when calling python it uses python3 as default (maybe not the best way to do this, but it works)
+>cd /usr/bin<br>
 sudo ln -s python3 python<br>
+
+NumPy
+>pip3 install numpy<br>
 
 ## Starting project
 
-Add both dependencies
+Add the following env-vars:
 
-    {:exla, "~> 0.1.0-dev", github: "elixir-nx/nx", sparse: "exla"},
-    {:nx, "~> 0.1.0-dev", github: "elixir-nx/nx", branch: "main", sparse: "nx", override: true}
-    {:scidata, "~> 0.1.1"}
+>export XLA_BUILD=false<br>
+export XLA_TARGET=cuda<br>
+export EXLA_TARGET=cuda<br>
+export EXLA_FLAGS=--config=cuda<br>
+export TF_CUDA_VERSION='YOUR_CUDA_VERSION'
+
 >`mix deps.get`<br>
->`mix compile`
+`mix compile`
 
-Be aware that exla takes a really long time to compile
+Be aware that `EXLA` takes a really long time to compile if your machine XLA version was not already pre-compiled.
+Usually `CUDA` in version `1.11+` have their `XLA` already compiled to be downloaded and everything runs smoothly.
 
 ## Execution
 
