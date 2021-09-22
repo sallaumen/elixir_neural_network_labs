@@ -5,8 +5,8 @@ defmodule SimpleDataAnalysis.MixProject do
     [
       app: :image_neural_network_labs,
       version: "0.1.0",
-      elixir: "~> 1.11",
-      start_permanent: Mix.env() == :prod,
+      elixir: "~> 1.12.3",
+      start_permanent: Mix.env() == :dev,
       deps: deps()
     ]
   end
