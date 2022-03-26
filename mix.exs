@@ -19,10 +19,10 @@ defmodule SimpleDataAnalysis.MixProject do
 
   defp deps do
     [
-      {:axon, "~> 0.1.0-dev", github: "elixir-nx/axon", branch: "main"},
-      {:exla, "~> 0.1.0-dev", github: "elixir-nx/nx", sparse: "exla"},
+      {:axon, "~> 0.1.0-dev", github: "elixir-nx/axon"},
+      {:exla, github: "elixir-nx/exla", sparse: "exla"},
       {:nx, "~> 0.1.0-dev", github: "elixir-nx/nx", sparse: "nx", override: true},
-      {:scidata, "~> 0.1.1"}
+      {:scidata, "~> 0.1.3"}
     ]
   end
 end

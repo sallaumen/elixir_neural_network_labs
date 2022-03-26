@@ -1,5 +1,4 @@
 defmodule Dataset.Parser do
-
   def get_working_batch_size(), do: 0..31
 
   def get_data(type) do
@@ -46,5 +45,4 @@ defmodule Dataset.Parser do
   defp transform_images({images_binary, type, {n_images, _, n_rows, n_cols}}) do
     transform_images({images_binary, type, {n_images, n_rows, n_cols}})
   end
-
 end
