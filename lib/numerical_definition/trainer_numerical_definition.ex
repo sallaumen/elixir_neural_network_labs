@@ -38,7 +38,8 @@ defmodule DatasetTrain.TrainerNumericalDefinition do
   end
 
   defn update({w1, b1, w2, b2} = params, images, labels) do
-    {grad_w1, grad_b1, grad_w2, grad_b2} = grad(params, fn params -> loss(params, images, labels) end)
+    {grad_w1, grad_b1, grad_w2, grad_b2} =
+      grad(params, fn params -> loss(params, images, labels) end)
 
     {w1 - grad_w1 * 0.01, b1 - grad_b1 * 0.01, w2 - grad_w2 * 0.01, b2 - grad_b2 * 0.01}
   end
@@ -48,6 +49,7 @@ defmodule DatasetTrain.TrainerNumericalDefinition do
       for epoch <- 1..epochs, reduce: init_params() do
         acc ->
           IO.puts("Epoch #{epoch}")
+
           for {{imgs, labels}, _} <- images_zip, reduce: acc do
             acc -> update(acc, imgs, labels)
           end
@@ -60,5 +62,4 @@ defmodule DatasetTrain.TrainerNumericalDefinition do
   def get_or_train_neural_network(:get, path, _, _) do
     ModelPersistenceLayer.load_model_params(path)
   end
-
 end
