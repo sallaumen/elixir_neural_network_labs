@@ -1,8 +1,8 @@
 defmodule ImplementationModel.ModelPersistenceLayer do
-
   @base_path "lib/implementation_model/models/"
 
   def save_model_params(_params, _path, :skip), do: :not_saved
+
   def save_model_params(params, path, :run) do
     path = @base_path <> "#{path}"
     {l1, l2, l3, l4} = params
@@ -34,5 +34,4 @@ defmodule ImplementationModel.ModelPersistenceLayer do
 
     {l1, l2, l3, l4}
   end
-
 end

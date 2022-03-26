@@ -1,14 +1,18 @@
-defmodule MNIST.DatasetTrain.Trainer do
+defmodule DatasetTrain.MNIST.Trainer do
   alias DatasetTrain.TrainerNumericalDefinition
   alias Dataset.Parser
   alias Dataset.Printer
 
   @variation_size 10
 
+  @deprecated "Use DatasetTrain.MNIST.execute/0 instead"
   def execute() do
     {images, labels} = Parser.get_data(:mnist)
     zip = Parser.zip_images_with_labels({images, labels})
-    params = TrainerNumericalDefinition.get_or_train_neural_network(:train, "predictions_v1", zip, 10)
+
+    params =
+      TrainerNumericalDefinition.get_or_train_neural_network(:train, "predictions_v1", zip, 10)
+
     result_array = predict_all(images, params)
 
     labels_array = Printer.print_and_get_labels(labels, @variation_size)
@@ -20,12 +24,10 @@ defmodule MNIST.DatasetTrain.Trainer do
 
   defp predict_all(images, params) do
     images
-    |> Enum.flat_map(
-      fn image_batch ->
-        TrainerNumericalDefinition.predict(params, image_batch[Parser.get_working_batch_size()])
-        |> get_result_array()
-      end
-    )
+    |> Enum.flat_map(fn image_batch ->
+      TrainerNumericalDefinition.predict(params, image_batch[Parser.get_working_batch_size()])
+      |> get_result_array()
+    end)
   end
 
   defp get_result_array(predictions) do
@@ -39,5 +41,4 @@ defmodule MNIST.DatasetTrain.Trainer do
       index
     end)
   end
-
 end
