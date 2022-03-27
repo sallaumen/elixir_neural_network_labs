@@ -64,15 +64,15 @@ defmodule DatasetTrain.Cifar10 do
     |> Axon.Loop.run(Stream.zip(train_images, train_labels), epochs: @epochs, compiler: EXLA)
   end
 
-
   defp test_model(model, final_training_state, test_images, test_labels) do
     IO.puts(" -> Testing model:")
     test_data = Stream.zip(test_images, test_labels)
+
     model
     |> Axon.Loop.evaluator(final_training_state)
     |> Axon.Loop.metric(:accuracy, "Accuracy")
     |> Axon.Loop.run(test_data, compiler: EXLA)
+
     IO.puts("\n")
   end
-
 end

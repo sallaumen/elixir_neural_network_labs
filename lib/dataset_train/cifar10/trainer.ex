@@ -10,8 +10,7 @@ defmodule DatasetTrain.Cifar10.Trainer do
     {images, labels} = Parser.get_data(:cifar10)
     zip = Parser.zip_images_with_labels({images, labels})
 
-    params =
-      TrainerNumericalDefinition.get_or_train_neural_network(:train, "predictions_v1", zip, 3)
+    params = TrainerNumericalDefinition.get_or_train_neural_network(:train, "predictions_v1", zip, 3)
 
     result_array = predict_all(images, params)
 
