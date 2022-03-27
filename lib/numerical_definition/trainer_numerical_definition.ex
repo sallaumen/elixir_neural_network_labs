@@ -38,8 +38,7 @@ defmodule DatasetTrain.TrainerNumericalDefinition do
   end
 
   defn update({w1, b1, w2, b2} = params, images, labels) do
-    {grad_w1, grad_b1, grad_w2, grad_b2} =
-      grad(params, fn params -> loss(params, images, labels) end)
+    {grad_w1, grad_b1, grad_w2, grad_b2} = grad(params, fn params -> loss(params, images, labels) end)
 
     {w1 - grad_w1 * 0.01, b1 - grad_b1 * 0.01, w2 - grad_w2 * 0.01, b2 - grad_b2 * 0.01}
   end
