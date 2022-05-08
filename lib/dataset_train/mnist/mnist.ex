@@ -1,39 +1,15 @@
 defmodule DatasetTrain.MNIST do
   require Axon
+  alias Dataset.Loader
 
-  @epochs 1
+  @epochs 3
 
   def execute() do
-    {train_images, train_labels} = load_algorithm_dataset()
+    {train_images, train_labels} = Loader.get_dataset(:mnist)
 
     model = create_model()
     final_training_state = train_model(model, train_images, train_labels)
     test_model(model, final_training_state, train_images, train_labels)
-  end
-
-  defp load_algorithm_dataset() do
-    IO.puts(" -> Downloading dataset")
-    {raw_train_images, raw_train_labels} = Scidata.MNIST.download()
-    train_images = transform_images(raw_train_images)
-    train_labels = transform_labels(raw_train_labels)
-
-    {train_images, train_labels}
-  end
-
-  defp transform_images({bin, type, shape}) do
-    bin
-    |> Nx.from_binary(type)
-    |> Nx.reshape({elem(shape, 0), 784})
-    |> Nx.divide(255.0)
-    |> Nx.to_batched_list(32)
-  end
-
-  defp transform_labels({bin, type, _}) do
-    bin
-    |> Nx.from_binary(type)
-    |> Nx.new_axis(-1)
-    |> Nx.equal(Nx.tensor(Enum.to_list(0..9)))
-    |> Nx.to_batched_list(32)
   end
 
   defp create_model() do

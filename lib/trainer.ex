@@ -1,4 +1,4 @@
-defmodule Executor do
+defmodule Trainer do
   alias DatasetTrain.Cifar10
   alias DatasetTrain.MNIST
 

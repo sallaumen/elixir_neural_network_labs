@@ -1,13 +1,14 @@
 defmodule DatasetTrain.Cifar10.Trainer do
   alias DatasetTrain.TrainerNumericalDefinition
   alias Dataset.Parser
+  alias Dataset.Loader
   alias Dataset.Printer
 
   @variation_size 10
 
   @deprecated "Use DatasetTrain.Cifar10.execute/0 instead"
   def execute() do
-    {images, labels} = Parser.get_data(:cifar10)
+    {images, labels} = Loader.get_dataset(:cifar10)
     zip = Parser.zip_images_with_labels({images, labels})
 
     params = TrainerNumericalDefinition.get_or_train_neural_network(:train, "predictions_v1", zip, 3)
