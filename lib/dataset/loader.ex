@@ -1,5 +1,4 @@
 defmodule Dataset.Loader do
-
   def get_dataset(algorithm) do
     IO.puts(" -> Downloading dataset")
     {raw_train_images, raw_train_labels} = download_dataset(algorithm)
