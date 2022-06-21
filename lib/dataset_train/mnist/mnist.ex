@@ -8,15 +8,23 @@ defmodule DatasetTrain.MNIST do
     {train_images, train_labels} = Loader.get_dataset(:mnist)
 
     model = create_model()
-    final_training_state = train_model(model, train_images, train_labels)
-    test_model(model, final_training_state, train_images, train_labels)
+    train_model(model, train_images, train_labels)
+  end
+
+  def execute_and_test() do
+    {train_images, train_labels} = Loader.get_dataset(:mnist)
+
+    model = create_model()
+    trained_model = train_model(model, train_images, train_labels)
+
+    test_model(model, trained_model, train_images, train_labels)
   end
 
   defp create_model() do
     model =
-      Axon.input({nil, 784})
+      Axon.input({nil, 784}, "input")
       |> Axon.dense(128, activation: :relu)
-      |> Axon.dropout()
+      |> Axon.dropout(rate: 0.5)
       |> Axon.dense(10, activation: :softmax)
 
     IO.puts(" -> Model:")
@@ -30,7 +38,7 @@ defmodule DatasetTrain.MNIST do
     model
     |> Axon.Loop.trainer(:categorical_cross_entropy, :adam)
     |> Axon.Loop.metric(:accuracy, "Accuracy")
-    |> Axon.Loop.run(Stream.zip(train_images, train_labels), epochs: @epochs, compiler: EXLA)
+    |> Axon.Loop.run(Stream.zip(train_images, train_labels), %{}, epochs: @epochs, compiler: EXLA)
   end
 
   defp test_model(model, final_training_state, test_images, test_labels) do
@@ -38,9 +46,9 @@ defmodule DatasetTrain.MNIST do
     test_data = Stream.zip(test_images, test_labels)
 
     model
-    |> Axon.Loop.evaluator(final_training_state)
+    |> Axon.Loop.evaluator()
     |> Axon.Loop.metric(:accuracy, "Accuracy")
-    |> Axon.Loop.run(test_data, compiler: EXLA)
+    |> Axon.Loop.run(test_data, final_training_state, compiler: EXLA)
 
     IO.puts("\n")
   end

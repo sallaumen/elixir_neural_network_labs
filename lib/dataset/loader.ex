@@ -1,9 +1,9 @@
 defmodule Dataset.Loader do
-  def get_dataset(algorithm) do
+  def get_dataset(dataset) do
     IO.puts(" -> Downloading dataset")
-    {raw_train_images, raw_train_labels} = download_dataset(algorithm)
-    train_images = transform_images(algorithm, raw_train_images)
-    train_labels = transform_labels(algorithm, raw_train_labels)
+    {raw_train_images, raw_train_labels} = download_dataset(dataset)
+    train_images = transform_images(dataset, raw_train_images)
+    train_labels = transform_labels(dataset, raw_train_labels)
 
     {train_images, train_labels}
   end
