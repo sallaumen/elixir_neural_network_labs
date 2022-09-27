@@ -1,13 +1,13 @@
-defmodule DatasetTrain.Cifar10.Trainer do
+defmodule Dataset.Training.Cifar10.LegacyTrainer do
   alias DatasetTrain.TrainerNumericalDefinition
-  alias Dataset.Parser
-  alias Dataset.Loader
-  alias Dataset.Printer
+  alias Dataset.Training.Parser
+  alias Dataset.Training.Loader
+  alias Dataset.Training.Printer
 
   @variation_size 10
 
-  @deprecated "Use DatasetTrain.Cifar10.execute/0 instead"
-  def execute() do
+  @deprecated "Use Dataset.Training.Cifar10.run_training/0 instead"
+  def run_training() do
     {images, labels} = Loader.get_dataset(:cifar10)
     zip = Parser.zip_images_with_labels({images, labels})
 
