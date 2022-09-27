@@ -1,17 +1,17 @@
-defmodule DatasetTrain.Cifar10 do
+defmodule Dataset.Training.Cifar10 do
   require Axon
-  alias Dataset.Loader
+  alias Dataset.Training.Loader
 
   @epochs 3
 
-  def execute() do
+  def run_training() do
     {train_images, train_labels} = Loader.get_dataset(:cifar10)
 
     model = create_model()
     train_model(model, train_images, train_labels)
   end
 
-  def execute_and_test() do
+  def run_training_and_test() do
     {train_images, train_labels} = Loader.get_dataset(:cifar10)
 
     model = create_model()

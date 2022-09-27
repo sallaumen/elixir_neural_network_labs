@@ -1,4 +1,4 @@
-defmodule Dataset.Loader do
+defmodule Dataset.Training.Loader do
   def get_dataset(dataset) do
     IO.puts(" -> Downloading dataset")
     {raw_train_images, raw_train_labels} = download_dataset(dataset)

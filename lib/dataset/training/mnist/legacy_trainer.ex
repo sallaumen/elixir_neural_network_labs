@@ -1,13 +1,13 @@
-defmodule DatasetTrain.MNIST.Trainer do
+defmodule Dataset.Training.MNIST.LegacyTrainer do
   alias DatasetTrain.TrainerNumericalDefinition
-  alias Dataset.Parser
-  alias Dataset.Loader
-  alias Dataset.Printer
+  alias Dataset.Training.Parser
+  alias Dataset.Training.Loader
+  alias Dataset.Training.Printer
 
   @variation_size 10
 
-  @deprecated "Use DatasetTrain.MNIST.execute/0 instead"
-  def execute() do
+  @deprecated "Use Dataset.Training.MNIST.run_training/0 instead"
+  def run_training() do
     {images, labels} = Loader.get_dataset(:mnist)
     zip = Parser.zip_images_with_labels({images, labels})
 

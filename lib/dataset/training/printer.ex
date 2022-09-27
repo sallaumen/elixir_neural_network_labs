@@ -1,4 +1,4 @@
-defmodule Dataset.Printer do
+defmodule Dataset.Training.Printer do
   def print_and_get_labels(labels, variation_size) do
     labels_array = get_labels_array(labels, variation_size)
     IO.puts("Expected output:")

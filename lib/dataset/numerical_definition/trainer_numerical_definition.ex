@@ -5,7 +5,7 @@ defmodule DatasetTrain.TrainerNumericalDefinition do
   import Nx.Defn
   alias ImplementationModel.ModelPersistenceLayer
 
-#  @default_defn_compiler EXLA
+  #  @default_defn_compiler EXLA
 
   defn init_params do
     w1 = Nx.random_normal({784, 128}, 0.0, 0.1, names: [:input, :hidden])
@@ -20,7 +20,7 @@ defmodule DatasetTrain.TrainerNumericalDefinition do
     |> Nx.dot(w1)
     |> Nx.add(b1)
     |> Nx.logistic()
-#    |> Nx.sigmoid()
+    #    |> Nx.sigmoid()
     |> Nx.dot(w2)
     |> Nx.add(b2)
     |> softmax()
