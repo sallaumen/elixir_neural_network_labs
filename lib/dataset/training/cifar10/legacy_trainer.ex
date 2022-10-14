@@ -1,17 +1,18 @@
 defmodule Dataset.Training.Cifar10.LegacyTrainer do
-  alias DatasetTrain.TrainerNumericalDefinition
+  alias Dataset.Training.NumericalDefinitions
   alias Dataset.Training.Parser
   alias Dataset.Training.Loader
   alias Dataset.Training.Printer
 
   @variation_size 10
+  @epochs 3
 
   @deprecated "Use Dataset.Training.Cifar10.run_training/0 instead"
   def run_training() do
     {images, labels} = Loader.get_dataset(:cifar10)
     zip = Parser.zip_images_with_labels({images, labels})
 
-    params = TrainerNumericalDefinition.get_or_train_neural_network(:train, "predictions_v1", zip, 3)
+    params = NumericalDefinitions.get_or_train_neural_network(:train, "predictions_v1", zip, @epochs)
 
     result_array = predict_all(images, params)
 
@@ -25,7 +26,7 @@ defmodule Dataset.Training.Cifar10.LegacyTrainer do
   defp predict_all(images, params) do
     images
     |> Enum.flat_map(fn image_batch ->
-      TrainerNumericalDefinition.predict(params, image_batch[Parser.get_working_batch_size()])
+      NumericalDefinitions.predict(params, image_batch[Parser.get_working_batch_size()])
       |> get_result_array()
     end)
   end

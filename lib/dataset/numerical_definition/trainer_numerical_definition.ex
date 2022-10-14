@@ -1,4 +1,4 @@
-defmodule DatasetTrain.TrainerNumericalDefinition do
+defmodule Dataset.Training.NumericalDefinitions do
   @moduledoc """
   This module is legacy, please when working with models in this project, use DatasetTrain instead
   """
