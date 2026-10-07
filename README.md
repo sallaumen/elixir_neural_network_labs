@@ -1,79 +1,66 @@
-# Elixir Neural Network labs
-Elixir implementation of MNIST and CIFAR10 neural networks
+# Elixir neural network experiments
 
-## Installation
+Elixir/Nx implementations of the MNIST and CIFAR-10 image classifiers from Lucas Campos Tavano's Computer Engineering capstone project at UTFPR. The [comparison overview](https://github.com/sallaumen/elixir_vs_python_nn_performance_comparison) links this repository to its Python counterpart and explains why the historical results are not a controlled language benchmark.
 
-```elixir
-def deps do
-  [
-    {:elixir_neural_network_labs, "~> 0.1.0"}
-  ]
-end
+## Current stack and status
+
+The maintained project targets **Erlang/OTP 29.1.1** and **Elixir 1.20.4**, as pinned in [`.tool-versions`](.tool-versions). The lockfile resolves Nx 1.0.0, EXLA 1.0.0, Axon 0.9.0, and Scidata 0.1.11. Both Axon models build, predict, train, and evaluate synthetic batches on EXLA's host client. A full MNIST train/test run completed locally on the current stack; a full CIFAR-10 run has not yet been verified.
+
+| Dataset | Model | Default training |
+| --- | --- | --- |
+| MNIST | Dense 128 → Dropout 0.5 → Dense 10 | Adam, 3 epochs |
+| CIFAR-10 | Conv 32 → BatchNorm → Pool → Conv 64 → BatchNorm → Pool → Dense 64 → Dropout 0.5 → Dense 10 | Adam, 3 epochs |
+
+Images are normalized to `[0, 1]` and batched in groups of 16. The CIFAR-10 model uses channels-first tensors. `run_training_and_test/0` now downloads and evaluates the **separate test split**. The checked-in [MNIST figure](MNIST_results.png) remains a historical artifact, not a result produced by the current stack.
+
+## Setup
+
+With [asdf](https://asdf-vm.com/) and its Erlang/Elixir plugins:
+
+```sh
+asdf install
+mix deps.get
+mix compile
 ```
 
-## Prerequisite for EXLA
+EXLA uses the `host` client by default so the project can run without CUDA. Set `EXLA_CLIENT=cuda` when you have a compatible CUDA installation. See the [EXLA documentation](https://github.com/elixir-nx/nx/tree/main/exla) for native backend requirements.
 
-Bazel 3.7.2<br>
->asdf plugin add bazel<br>
-asdf install bazel 3.7.2<br>
-asdf global bazel 3.7.2<br>
+## Run
 
-Erlang OTP 24 (MacOS)
->brew install erlang
+From the repository root:
 
-Erlang OTP 24 (ASDF)
->asdf plugin add erlang 24.0.6<br>
-asdf install erlang 24.0.6<br>
-asdf global erlang 24.0.6<br>
+```sh
+iex -S mix
+```
 
-Elixir 1.12
->asdf plugin add elixir<br>
-asdf install elixir 1.12-otp-24<br>
-asdf global elixir 1.12-otp-24<br>
+In IEx:
 
-Python
->sudo apt install python3-pip<br>
+```elixir
+Trainer.train(:mnist)
+Dataset.Training.MNIST.run_training_and_test()
+Trainer.train(:cifar10)
+Dataset.Training.Cifar10.run_training_and_test()
+```
 
-Some trickery to when calling python it uses python3 as default (maybe not the best way to do this, but it works)
->cd /usr/bin<br>
-sudo ln -s python3 python<br>
+Dataset downloads and full training take time. A training call does not evaluate a test split; choose `run_training_and_test/0` when you need a held-out metric. The models differ from their Python counterparts in architecture and optimizer choices.
 
-NumPy
->pip3 install numpy<br>
+## Checks
 
-## Starting project
+```sh
+mix format --check-formatted
+mix compile --warnings-as-errors
+mix test
+```
 
-Add the following env-vars:
+The tests use synthetic tensors; they do not download datasets. Full dataset runs should be recorded with exact hardware, backend, Git commit, and dependency versions before making performance claims.
 
->export XLA_BUILD=false<br>
-export XLA_TARGET=cuda<br>
-export EXLA_TARGET=cuda<br>
-export EXLA_FLAGS=--config=cuda<br>
-export TF_CUDA_VERSION='YOUR_CUDA_VERSION'
+## Historical environment
 
->`mix deps.get`<br>
-`mix compile`
+The original benchmark-era toolchain was Erlang/OTP **24.3.4.1**, Elixir **1.13.4-otp-24**, Python **3.8.0**, and Bazel **3.7.2**. Its locked dependencies included Nx **0.2.1**, EXLA **0.2.2**, Scidata **0.1.8**, and an Axon Git revision. See [historical environment details](docs/historical-environment.md) and the [archived lockfile](docs/historical/mix.lock). Those versions describe the old project; they do not describe results from the current code.
 
-Be aware that `EXLA` takes a really long time to compile if your machine XLA version was not already pre-compiled.
-Usually `CUDA` in version `1.11+` have their `XLA` already compiled to be downloaded and everything runs smoothly.
+## Repository layout
 
-## Execution
-
-> iex -S mix
-<br>
-iex(1)> MNIST.Executor.execute()
-<br>
-iex(2)> CIFAR10.Executor.execute()
-
-## Current status:
-### - MNIST
-Status: **Working**
-
-![Diagram](MNIST_results.png)
-<br>
-<br>
-<br>
-
-- CIFAR10: Not Working
-### - CIFAR10
-Status: **Not Working**
+- [`lib/dataset/training/`](lib/dataset/training/) contains the dataset loader and Axon training modules.
+- [`lib/dataset/numerical_definition/`](lib/dataset/numerical_definition/) retains the legacy manual Nx implementation.
+- [`lib/implementation_model/`](lib/implementation_model/) contains legacy model persistence code.
+- [`test/`](test/) contains focused calculations, preprocessing, and synthetic model checks.
