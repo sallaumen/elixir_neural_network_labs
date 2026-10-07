@@ -4,7 +4,7 @@ Elixir/Nx implementations of the MNIST and CIFAR-10 image classifiers from Lucas
 
 ## Current stack and status
 
-The maintained project targets **Erlang/OTP 29.1.1** and **Elixir 1.20.4**, as pinned in [`.tool-versions`](.tool-versions). The lockfile resolves Nx 1.0.0, EXLA 1.0.0, Axon 0.9.0, and Scidata 0.1.11. Both Axon models build, predict, train, and evaluate synthetic batches on EXLA's host client. A full MNIST train/test run completed locally on the current stack; a full CIFAR-10 run has not yet been verified.
+The maintained project targets **Erlang/OTP 29.1.1** and **Elixir 1.20.4**, as pinned in [`.tool-versions`](.tool-versions). The lockfile resolves Nx 1.0.0, EXLA 1.0.0, Axon 0.9.0, and Scidata 0.1.11. Both Axon models build, predict, train, and evaluate synthetic batches on EXLA's host client. Full MNIST and CIFAR-10 training and held-out evaluation completed locally on 7 October 2026. The [validation record](https://github.com/sallaumen/elixir_vs_python_nn_performance_comparison/blob/master/docs/validation-2026-10-07.md) describes the environment and the locally served, checksum-verified CIFAR-10 archive used for that run.
 
 | Dataset | Model | Default training |
 | --- | --- | --- |
