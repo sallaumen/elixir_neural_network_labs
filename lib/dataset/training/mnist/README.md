@@ -1,9 +1,7 @@
-# Image Recognition Neural Network (IRNW) - MNIST
+# MNIST experiment
 
- This is an implementation using Elixir NX to solve MNIST problem, which consists in recognizing handwritten numbers.
+This Axon model classifies handwritten digits from the MNIST dataset. The maintained training code is in [`mnist.ex`](mnist.ex); setup and execution commands are in the [repository README](../../../../README.md).
 
-#Results:
+![Historical MNIST result](result.png)
 
-![Result](result.png)
-
-- This project got created using [José Valim's Tutorial](https://www.youtube.com/watch?v=fPKMmJpAGWc). Every code currently in this project is inspired in his tutorial.
+The figure belongs to the original capstone project. It was not regenerated with the current Elixir, Nx, and EXLA versions. The initial implementation drew on [José Valim's Nx tutorial](https://www.youtube.com/watch?v=fPKMmJpAGWc).

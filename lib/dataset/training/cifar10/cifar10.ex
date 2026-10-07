@@ -1,5 +1,4 @@
 defmodule Dataset.Training.Cifar10 do
-  require Axon
   alias Dataset.Training.Loader
 
   @epochs 3
@@ -17,18 +16,19 @@ defmodule Dataset.Training.Cifar10 do
     model = create_model()
     trained_model = train_model(model, train_images, train_labels)
 
-    test_model(model, trained_model, train_images, train_labels)
+    {test_images, test_labels} = Loader.get_dataset(:cifar10, :test)
+    test_model(model, trained_model, test_images, test_labels)
   end
 
-  defp create_model() do
+  def create_model() do
     model =
-      Axon.input({nil, 3, 32, 32}, "input")
-      |> Axon.conv(32, kernel_size: {3, 3}, activation: :relu)
-      |> Axon.batch_norm()
-      |> Axon.max_pool(kernel_size: {2, 2})
-      |> Axon.conv(64, kernel_size: {3, 3}, activation: :relu)
-      |> Axon.batch_norm()
-      |> Axon.max_pool(kernel_size: {2, 2})
+      Axon.input("input", shape: {nil, 3, 32, 32})
+      |> Axon.conv(32, kernel_size: {3, 3}, activation: :relu, channels: :first)
+      |> Axon.batch_norm(channel_index: 1)
+      |> Axon.max_pool(kernel_size: {2, 2}, channels: :first)
+      |> Axon.conv(64, kernel_size: {3, 3}, activation: :relu, channels: :first)
+      |> Axon.batch_norm(channel_index: 1)
+      |> Axon.max_pool(kernel_size: {2, 2}, channels: :first)
       |> Axon.flatten()
       |> Axon.dense(64, activation: :relu)
       |> Axon.dropout(rate: 0.5)
@@ -45,7 +45,7 @@ defmodule Dataset.Training.Cifar10 do
     model
     |> Axon.Loop.trainer(:categorical_cross_entropy, :adam)
     |> Axon.Loop.metric(:accuracy, "Accuracy")
-    |> Axon.Loop.run(Stream.zip(train_images, train_labels), %{}, epochs: @epochs, compiler: EXLA)
+    |> Axon.Loop.run(Stream.zip(train_images, train_labels), Axon.ModelState.empty(), epochs: @epochs, compiler: EXLA)
   end
 
   def test_model(model, final_training_state, test_images, test_labels) do
@@ -55,7 +55,7 @@ defmodule Dataset.Training.Cifar10 do
     model
     |> Axon.Loop.evaluator()
     |> Axon.Loop.metric(:accuracy, "Accuracy")
-    |> Axon.Loop.run(test_data, final_training_state, compiler: EXLA)
+    |> Axon.Loop.run(test_data, final_training_state.step_state.model_state, compiler: EXLA)
 
     IO.puts("\n")
   end

@@ -8,10 +8,11 @@ defmodule DatasetTrain.TrainerNumericalDefinition do
   #  @default_defn_compiler EXLA
 
   defn init_params do
-    w1 = Nx.random_normal({784, 128}, 0.0, 0.1, names: [:input, :hidden])
-    b1 = Nx.random_normal({128}, 0.0, 0.1, names: [:hidden])
-    w2 = Nx.random_normal({128, 10}, 0.0, 0.1, names: [:hidden, :output])
-    b2 = Nx.random_normal({10}, 0.0, 0.1, names: [:output])
+    key = Nx.Random.key(10)
+    {w1, key} = Nx.Random.normal(key, 0.0, 0.1, shape: {784, 128}, names: [:input, :hidden])
+    {b1, key} = Nx.Random.normal(key, 0.0, 0.1, shape: {128}, names: [:hidden])
+    {w2, key} = Nx.Random.normal(key, 0.0, 0.1, shape: {128, 10}, names: [:hidden, :output])
+    {b2, _key} = Nx.Random.normal(key, 0.0, 0.1, shape: {10}, names: [:output])
     {w1, b1, w2, b2}
   end
 
@@ -19,7 +20,7 @@ defmodule DatasetTrain.TrainerNumericalDefinition do
     batch
     |> Nx.dot(w1)
     |> Nx.add(b1)
-    |> Nx.logistic()
+    |> Nx.sigmoid()
     #    |> Nx.sigmoid()
     |> Nx.dot(w2)
     |> Nx.add(b2)

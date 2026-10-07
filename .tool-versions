@@ -1,4 +1,2 @@
-erlang 24.3.4.1
-elixir 1.13.4-otp-24
-python 3.8.0
-bazel 3.7.2
+erlang 29.1.1
+elixir 1.20.4-otp-29

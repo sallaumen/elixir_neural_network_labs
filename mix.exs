@@ -1,12 +1,12 @@
-defmodule SimpleDataAnalysis.MixProject do
+defmodule ImageNeuralNetworkLabs.MixProject do
   use Mix.Project
 
   def project do
     [
       app: :image_neural_network_labs,
       version: "1.0.0",
-      elixir: "~> 1.13.4",
-      start_permanent: Mix.env() == :dev,
+      elixir: "~> 1.20.0",
+      start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
   end
@@ -19,10 +19,10 @@ defmodule SimpleDataAnalysis.MixProject do
 
   defp deps do
     [
-      {:axon, "~> 0.1.0-dev", github: "elixir-nx/axon"},
-      {:exla, "~> 0.2"},
-      {:nx, "~> 0.2.1"},
-      {:scidata, "~> 0.1.6"}
+      {:axon, "~> 0.9.0"},
+      {:exla, "~> 1.0.0"},
+      {:nx, "~> 1.0.0"},
+      {:scidata, "~> 0.1.11"}
     ]
   end
 end
